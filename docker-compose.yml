@@ -1,0 +1,70 @@
+version: '3'
+
+networks:
+  cluster-network:
+    name: ${CLUSTER_NETWORK}
+
+services:
+  master:
+    build:
+      context: ./cluster/master
+      dockerfile: ../base/Dockerfile
+    image: ${MASTER_NODE_IMAGE}
+    command: sh -c "while true; do sleep 1; done"
+    container_name: ${MASTER_NODE}
+    volumes:
+      - ${PWD}${SHARED_DATA}:/opt/spark/work-dir
+    ports:
+      - ${MASTER_JOBS_LOCAL_PORT}:4040
+      - ${MASTER_WEB_LOCAL_PORT}:8080
+      - ${MASTER_SPARK_LOCAL_PORT}:7077
+    networks:
+      - cluster-network
+
+  worker1:
+    build:
+      context: ./cluster/worker
+      dockerfile: ../base/Dockerfile
+    image:  ${WORKER_NODE_IMAGE}
+    command: sh -c "while true; do sleep 1; done"
+    container_name: ${WORKER1_NODE}
+    volumes:
+      - ${PWD}${SHARED_DATA}:/opt/spark/work-dir
+    depends_on:
+      - master
+    ports:
+      - ${WORKER1_LOCAL_PORT}:4040
+    networks:
+      - cluster-network
+
+  worker2:
+    build:
+      context: ./cluster/worker
+      dockerfile: ../base/Dockerfile
+    image: ${WORKER_NODE_IMAGE}
+    command: sh -c "while true; do sleep 1; done"
+    container_name: ${WORKER2_NODE}
+    volumes:
+      - ${PWD}${SHARED_DATA}:/opt/spark/work-dir
+    depends_on:
+      - master
+    ports:
+      - ${WORKER2_LOCAL_PORT}:4040
+    networks:
+      - cluster-network
+
+  worker3:
+    build:
+      context: ./cluster/worker
+      dockerfile: ../base/Dockerfile
+    image: ${WORKER_NODE_IMAGE}
+    command: sh -c "while true; do sleep 1; done"
+    container_name: ${WORKER3_NODE}
+    volumes:
+      - ${PWD}${SHARED_DATA}:/opt/spark/work-dir
+    depends_on:
+      - master
+    ports:
+      - ${WORKER3_LOCAL_PORT}:4040
+    networks:
+      - cluster-network

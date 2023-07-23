@@ -1,0 +1,11 @@
+{
+  "java.compile.nullAnalysis.mode": "automatic",
+  "cSpell.enableFiletypes": [
+    "java"
+  ],
+  "cSpell.language": "en,es-ES",
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "cSpell.words": [
+    "gson"
+  ]
+}
