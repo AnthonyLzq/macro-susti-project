@@ -6,7 +6,8 @@ source ./.env
 # Levantar los servicios
 docker-compose rm -f
 docker-compose pull
-docker-compose up --build -d
+docker-compose build --no-cache
+docker-compose up -d
 
 # Iniciar el nodo master y los nodos worker enlazandolos al master
 docker exec $MASTER_NODE /opt/spark/sbin/start-master.sh

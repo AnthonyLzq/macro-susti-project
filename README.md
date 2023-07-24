@@ -24,7 +24,7 @@ docker exec -it master-node bash
 
 ## Proyecto Java
 
-La configuración actual del proyecto nos permite correr un solo archivo Java y sus dependencias en lugar de todo el proyecto. Esto es logrado gracias a la siguiente configuración en el [pom.xml](server/pom.xml):
+La configuración actual del proyecto nos permite correr un solo archivo Java y sus dependencias en lugar de todo el proyecto. Esto es logrado gracias a la siguiente configuración en el [pom.xml](cluster/shared-data/java-spark-server/pom.xml):
 
 ```xml
 <build>

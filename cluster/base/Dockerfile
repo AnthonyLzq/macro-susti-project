@@ -35,9 +35,38 @@ EXPOSE 9999
 RUN mkdir /opt/spark/conf
 ADD ./conf /opt/spark/conf
 
-# Instalar maven:
+# Instalar maven
 RUN apt-get update && \
   apt-get install -y --no-install-recommends \
   maven \
   && rm -rf /var/lib/apt/lists/*
 
+# Instalar netcat
+RUN apt-get update && \
+  apt-get install -y --no-install-recommends \
+  netcat \
+  && rm -rf /var/lib/apt/lists/*
+
+# Instalar zsh
+RUN apt-get update && \
+  apt-get install -y --no-install-recommends \
+  zsh \
+  && rm -rf /var/lib/apt/lists/*
+
+# Instalar git
+RUN apt-get update && \
+  apt-get install -y --no-install-recommends \
+  git \
+  && rm -rf /var/lib/apt/lists/*
+
+# Instalar oh-my-zsh
+RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+# Instalar spaceship-prompt
+RUN git clone https://github.com/spaceship-prompt/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt" --depth=1
+
+# Crear un enlace simbólico
+RUN ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
+
+# Setear el tema
+RUN sed -i 's/ZSH_THEME="robbyrussell"/ZSH_THEME="spaceship"/g' "$ZSH_CUSTOM/.zshrc"

@@ -7,5 +7,13 @@
   "java.configuration.updateBuildConfiguration": "automatic",
   "cSpell.words": [
     "gson"
-  ]
+  ],
+  "emeraldwalk.runonsave": {
+    "commands": [
+      {
+        "match": ".java",
+        "cmd": "sh share-data.sh"
+      }
+    ]
+  }
 }
