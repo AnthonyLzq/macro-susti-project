@@ -26,10 +26,9 @@ public class SparkAppSender {
     String salaryMessage = new SalaryHandler().getSalaryMessage();
 
     try {
-      while (true) {
-        Socket socket = listener.accept();
-        new Thread(new ConnectionHandler(socket, salaryMessage)).start();
-      }
+      // Accept only one connection
+      Socket socket = listener.accept();
+      new Thread(new ConnectionHandler(socket, salaryMessage)).start();
     } finally {
       listener.close();
     }

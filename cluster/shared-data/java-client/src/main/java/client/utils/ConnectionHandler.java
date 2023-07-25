@@ -22,11 +22,9 @@ public class ConnectionHandler implements Runnable {
     try {
       PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 
-      while (true) {
-        out.println(message);
-        Thread.sleep(1000);
-      }
-    } catch (IOException | InterruptedException e) {
+      // Send the message once
+      out.println(message);
+    } catch (IOException e) {
       LOGGER.error("Error sending message: " + e.getMessage());
       e.printStackTrace();
     } finally {

@@ -46,7 +46,7 @@ Una vez copiadas las carpetas, debemos ingresar a nuestro cluster, para eso util
 docker exec -it master-node zsh
 
 # Ingresar al cliente de Java
-cd shared-data
+cd java-client
 
 # Instalar dependencias del cliente
 mvn clean install
