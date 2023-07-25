@@ -12,8 +12,15 @@
     "commands": [
       {
         "match": ".java",
-        "cmd": "sh share-data.sh"
+        "cmd": "sh share-data-java.sh"
+      },
+      {
+        "match": ".scala",
+        "cmd": "sh share-data-scala.sh"
       }
     ]
+  },
+  "files.watcherExclude": {
+    "**/target": true
   }
 }

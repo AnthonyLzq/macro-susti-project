@@ -63,10 +63,10 @@ RUN apt-get update && \
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 # Instalar spaceship-prompt
-RUN git clone https://github.com/spaceship-prompt/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt" --depth=1
+RUN git clone https://github.com/spaceship-prompt/spaceship-prompt.git "/root/.oh-my-zsh/custom/themes/spaceship-prompt" --depth=1
 
 # Crear un enlace simbólico
-RUN ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
+RUN ln -s "/root/.oh-my-zsh/custom/themes/spaceship-prompt/spaceship.zsh-theme" "/root/.oh-my-zsh/custom/themes/spaceship.zsh-theme"
 
 # Setear el tema
-RUN sed -i 's/ZSH_THEME="robbyrussell"/ZSH_THEME="spaceship"/g' "$ZSH_CUSTOM/.zshrc"
+RUN sed -i 's/ZSH_THEME="robbyrussell"/ZSH_THEME="spaceship"/g' "/root/.zshrc"
