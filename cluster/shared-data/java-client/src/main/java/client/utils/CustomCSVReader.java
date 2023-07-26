@@ -6,7 +6,11 @@ import org.apache.log4j.Logger;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class CustomCSVReader<T> {
   private static final Logger LOGGER = LogManager.getLogger(CustomCSVReader.class);
@@ -16,14 +20,14 @@ public class CustomCSVReader<T> {
     this.csvFilePath = csvFilePath;
   }
 
-  public List<T> read(Class<T> type) throws IOException {
+  public String readAsString() throws IOException {
     try {
-      List<T> result = new CsvToBeanBuilder<T>(new FileReader(csvFilePath))
-        .withType(type)
-        .build()
-        .parse();
+      Stream<String> lines = Files.lines(Paths.get(csvFilePath));
+      String content = lines
+        .skip(1)  // Esto omite la primera línea
+        .collect(Collectors.joining("\n"));
 
-      return result;
+      return content;
     } catch (IOException e) {
       LOGGER.error("Error reading CSV file: " + e.getMessage());
       throw e;

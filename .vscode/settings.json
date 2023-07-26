@@ -11,11 +11,11 @@
   "emeraldwalk.runonsave": {
     "commands": [
       {
-        "match": ".java",
+        "match": ".java$",
         "cmd": "sh share-data-java.sh"
       },
       {
-        "match": ".scala",
+        "match": ".scala$",
         "cmd": "sh share-data-scala.sh"
       }
     ]

@@ -21,6 +21,7 @@ public class ConnectionHandler implements Runnable {
   public void run() {
     try {
       PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+      LOGGER.info("Sending message: " + message);
 
       // Send the message once
       out.println(message);

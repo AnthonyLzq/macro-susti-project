@@ -23,10 +23,9 @@ public class SalaryHandler {
 
   private String buildSalaryMessage() {
     try {
-      List<Salary> salaries = getSalaries();
-      String salariesString = salariesToString(salaries);
+      String csvString = this.getSalaries();
 
-      return "salaries___" + salariesString;
+      return csvString;
     } catch (Exception e) {
       LOGGER.error("Error building salary message: " + e.getMessage());
 
@@ -34,24 +33,17 @@ public class SalaryHandler {
     }
   }
 
-  private List<Salary> getSalaries() throws Exception {
-    String workingDir = System.getProperty("user.dir");
-    String pathToCsv = "../db/salaries.csv";
-    Path path = Paths.get(workingDir).resolve(pathToCsv).normalize();
-    CustomCSVReader<Salary> reader = new CustomCSVReader<>(path.toString());
-
+  private String getSalaries() {
     try {
-      return reader.read(Salary.class);
+      String workingDir = System.getProperty("user.dir");
+      String pathToCsv = "../db/salaries.csv";
+      Path path = Paths.get(workingDir).resolve(pathToCsv).normalize();
+
+      return new CustomCSVReader<>(pathToCsv).readAsString();
     } catch (Exception e) {
-      LOGGER.error("Error reading CSV file: " + e.getMessage());
-      throw e;
+      LOGGER.error("Error building salary message: " + e.getMessage());
+
+      return null;
     }
-  }
-
-  private String salariesToString(List<Salary> salaries) {
-    Gson gson = new GsonBuilder().create();
-    JsonArray jsonArray = gson.toJsonTree(salaries).getAsJsonArray();
-
-    return jsonArray.toString();
   }
 }
