@@ -52,7 +52,7 @@ cd java-client
 mvn clean install
 
 # Ejecutar el cliente
-mvn exec:java
+mvn exec:java -Dexec.args="salaries"
 ```
 
 Una vez hecho esto, tendremos un output similar al siguiente:
@@ -70,6 +70,53 @@ Una vez hecho esto, tendremos un output similar al siguiente:
 ```
 
 Así, tendremos listo nuestro cliente a la espera de recibir conexiones y enviar la data.
+
+## MultilayerPerceptronClassifier en Scala
+
+Para entrenar nuestro modelo MultilayerPerceptronClassifier debemos copiar el jar generado dentro de la carpeta target, localizada en la carpeta [scala-model](scala-model/). Esto se hace automáticamente si estamos usando VSCode y tenemos instalada la extensión [Run on save](https://marketplace.visualstudio.com/items?itemName=emeraldwalk.RunOnSave#:~:text=Run%20On%20Save%20for%20Visual,don't%20trigger%20the%20commands.), sino la tenemos instalada (o no estamos usando VSCode), debemos correr los siguientes comandos en nuestra terminal:
+
+```sh
+# Eliminamos cualquier jar ya existente
+rm cluster/shared-data/*.jar
+
+# Entramos a la carpeta del servidor
+cd scala-model
+
+# Compilamos el proyecto
+sbt package
+
+# Copiamos el jar
+cp target/scala-2.12/scala-model_2.12-1.0.jar ../cluster/shared-data/scala-model.jar
+```
+
+Una vez copiado el jar, debemos ingresar a nuestro cluster, para eso utilizamos:
+
+```sh
+# Ingresar al contenedor que tiene spark
+docker exec -it master-node zsh
+
+# Ejecutar el jar
+../bin/spark-submit --class ScalaModel scala-model.jar
+```
+
+Una vez hecho esto, obtendremos un output similar al siguiente:
+
+```sh
+23/07/26 05:30:04 INFO TaskSchedulerImpl: Killing all running tasks in stage 275: Stage finished
+23/07/26 05:30:04 INFO DAGScheduler: Job 262 finished: collectAsMap at MulticlassMetrics.scala:61, took 0.188356 s
+Test set accuracy = 0.755578093306288
+23/07/26 05:30:04 INFO SparkContext: Invoking stop() from shutdown hook
+23/07/26 05:30:04 INFO SparkUI: Stopped Spark web UI at http://269765285b20:4040
+23/07/26 05:30:04 INFO MapOutputTrackerMasterEndpoint: MapOutputTrackerMasterEndpoint stopped!
+23/07/26 05:30:04 INFO MemoryStore: MemoryStore cleared
+23/07/26 05:30:04 INFO BlockManager: BlockManager stopped
+23/07/26 05:30:04 INFO BlockManagerMaster: BlockManagerMaster stopped
+23/07/26 05:30:04 INFO OutputCommitCoordinator$OutputCommitCoordinatorEndpoint: OutputCommitCoordinator stopped!
+23/07/26 05:30:04 INFO SparkContext: Successfully stopped SparkContext
+23/07/26 05:30:04 INFO ShutdownHookManager: Shutdown hook called
+23/07/26 05:30:04 INFO ShutdownHookManager: Deleting directory /tmp/spark-d787abea-1d22-4cd6-a794-a5ff7bd06dbd
+23/07/26 05:30:04 INFO ShutdownHookManager: Deleting directory /tmp/spark-c2d3dc7a-5caf-4699-8ae5-63739bed51df
+```
 
 ## Servidor Scala
 
@@ -142,3 +189,5 @@ Using Spark's default log4j profile: org/apache/spark/log4j-defaults.properties
 23/07/25 07:16:08 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, cc4392cd314e, 34917, None)
 23/07/25 07:16:08 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, cc4392cd314e, 34917, None)
 ```
+
+Luego, podremos encontrar los datos de las predicciones hechas por nuestro modelo dentro la carpeta [predictions](cluster/shared-data/predictions/).
