@@ -15,6 +15,7 @@ public class SparkAppSender {
   private static final Logger LOGGER = LogManager.getLogger(SparkAppSender.class);
 
   public static void main(String[] args) throws IOException {
+    LOGGER.info("Starting SparkAppSender, file: " + args[0]);
     ServerSocket listener = new ServerSocket(9090);
 
     if (Objects.nonNull(listener.getInetAddress())) {
@@ -23,7 +24,7 @@ public class SparkAppSender {
       LOGGER.info("Listening on port: " + listener.getLocalPort());
     }
 
-    String salaryMessage = new SalaryHandler().getSalaryMessage();
+    String salaryMessage = new SalaryHandler(args[0]).getSalaryMessage();
     LOGGER.info("Salary message: " + salaryMessage);
 
     try {

@@ -1,0 +1,1 @@
+{"class":"org.apache.spark.ml.feature.StringIndexerModel","timestamp":1690346539076,"sparkVersion":"3.2.1","uid":"strIdx_726aae18bfc5","paramMap":{"inputCol":"company_location","handleInvalid":"keep","outputCol":"company_location_indexed"},"defaultParamMap":{"handleInvalid":"error","stringOrderType":"frequencyDesc","outputCol":"strIdx_726aae18bfc5__output"}}

@@ -16,8 +16,10 @@ import org.apache.log4j.Logger;
 public class SalaryHandler {
   private static final Logger LOGGER = LogManager.getLogger(SalaryHandler.class);
   private final String salaryMessage;
+  private final String file;
 
-  public SalaryHandler() {
+  public SalaryHandler(String file) {
+    this.file = file;
     this.salaryMessage = buildSalaryMessage();
   }
 
@@ -36,7 +38,7 @@ public class SalaryHandler {
   private String getSalaries() {
     try {
       String workingDir = System.getProperty("user.dir");
-      String pathToCsv = "../db/salaries.csv";
+      String pathToCsv = "../db/" + this.file + ".csv";
       Path path = Paths.get(workingDir).resolve(pathToCsv).normalize();
 
       return new CustomCSVReader<>(pathToCsv).readAsString();
